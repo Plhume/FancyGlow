@@ -27,19 +27,17 @@ import java.util.List;
 @SuppressWarnings("DataFlowIssue")
 public class CreatingInventory implements InventoryHolder {
 
-    private static final String DEFAULT_RAINBOW_TEXTURE = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTI0OTMyYmI5NDlkMGM2NTcxN2IxMjFjOGNkOWEyMWI2OWU4NmMwZjdlMzQyMWFlOWI4YzY0ZDhiOTkwZWI2MCJ9fX0";
-    private static final String DEFAULT_FLASHING_TEXTURE = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTFjNTgxYThiNTk3NjkyYjViOTRkM2I4YmViOWM1MmY1Njk5OWQ2MmY3Mzk1NjY4ZmFjNTdhYzk1MmZlNGRjNCJ9fX0=";
+    private static final String DEFAULT_RAINBOW_TEXTURE
+            = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTI0OTMyYmI5NDlkMGM2NTcxN2IxMjFjOGNkOWEyMWI2OWU4NmMwZjdlMzQyMWFlOWI4YzY0ZDhiOTkwZWI2MCJ9fX0";
 
     private final YamlDocument config;
     private final Inventory inventory;
     private final MessageHandler messageHandler;
-    private final PlayerGlowManager playerGlowManager;
 
     public CreatingInventory(FancyGlow plugin) {
         this.config = plugin.getConfiguration();
         this.messageHandler = plugin.getMessageHandler();
-        this.playerGlowManager = plugin.getPlayerGlowManager();
-        this.inventory = plugin.getServer().createInventory(this, 45, messageHandler.getMessage(Messages.INVENTORY_TITLE));
+        this.inventory = plugin.getServer().createInventory(this, 6 * 9, messageHandler.getMessage(Messages.INVENTORY_TITLE));
     }
 
     public void setupContent() {
@@ -69,13 +67,7 @@ public class CreatingInventory implements InventoryHolder {
         setRainbowItem();
     }
 
-    private void prepareForPlayer(final Player player) {
-        setFlashingItem(player);
-        setPlayerStatusItem(player);
-    }
-
     public void openInventory(Player player) {
-        prepareForPlayer(player);
         player.openInventory(inventory);
     }
 
@@ -95,23 +87,6 @@ public class CreatingInventory implements InventoryHolder {
         }
     }
 
-    private void setFlashingItem(final Player player) {
-        int slot = config.getInt("Inventory.Flashing.Slot", 40);
-        inventory.setItem(slot, null);
-
-        if (playerGlowManager.findPlayerTeam(player) == null && !player.isGlowing()) return;
-
-        ItemStack flashingHead = HeadUtils.getCustomSkull(config.getString("Inventory.Flashing.Texture", DEFAULT_FLASHING_TEXTURE));
-        ItemMeta flashingHeadMeta = flashingHead.getItemMeta();
-
-        flashingHeadMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        flashingHeadMeta.setDisplayName(messageHandler.getMessage(Messages.FLASHING_HEAD_NAME));
-        flashingHeadMeta.setLore(messageHandler.getMessages(Messages.FLASHING_HEAD_LORE));
-        flashingHead.setItemMeta(flashingHeadMeta);
-
-        inventory.setItem(slot, flashingHead);
-    }
-
     private void setRainbowItem() {
         ItemStack rainbowHead = HeadUtils.getCustomSkull(config.getString("Inventory.Rainbow.Texture", DEFAULT_RAINBOW_TEXTURE));
         ItemMeta rainbowHeadMeta = rainbowHead.getItemMeta();
@@ -121,30 +96,7 @@ public class CreatingInventory implements InventoryHolder {
         rainbowHeadMeta.setLore(messageHandler.getMessages(Messages.RAINBOW_HEAD_LORE));
         rainbowHead.setItemMeta(rainbowHeadMeta);
 
-        inventory.setItem(config.getInt("Inventory.Rainbow.Slot", 39), rainbowHead);
-    }
-
-    private void setPlayerStatusItem(Player player) {
-        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta meta = (SkullMeta) head.getItemMeta();
-        meta.setDisplayName(messageHandler.getMessage(Messages.HEAD_NAME));
-
-        String mode = playerGlowManager.getPlayerGlowingMode(player);
-        if (mode.equals("NONE")) {
-            meta.setLore(messageHandler.getMessages(Messages.HEAD_LORE_CLICK));
-        } else {
-            List<String> parsedMessage = new ArrayList<>();
-            messageHandler.sendMessageBuilder(player, Messages.HEAD_LORE_SELECTED)
-                    .placeholder("%mode%", mode)
-                    .parseList()
-                    .forEach(line -> parsedMessage.add(MessageUtils.miniMessageParse(line)));
-            meta.setLore(parsedMessage);
-        }
-
-        meta.setOwningPlayer(player);
-        head.setItemMeta(meta);
-
-        inventory.setItem(config.getInt("Inventory.Status.Slot", 41), head);
+        inventory.setItem(config.getInt("Inventory.Rainbow.Slot", 40), rainbowHead);
     }
 
     @NotNull
