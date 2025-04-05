@@ -38,43 +38,34 @@ public class TabImplementation {
             return;
         }
 
-        // Init method right at the constructor, not sure if recommended.
         hook();
     }
 
     private void hook() {
         boolean autoTag = configuration.getBoolean("Auto_Tag", false);
         if (!autoTag) {
-            // Notify player that compatible version of TAB has been found and can be used.
             plugin.getLogger().info("Compatible version of TAB has been found.");
             plugin.getLogger().info("You can enable the Auto_Tag option in your config to use it.");
         } else {
-            // Log message if TAB is now being used.
             plugin.getLogger().info("TAB " + tabVersion + " has been found, using it.");
         }
 
-        // Register player placeholder directly to tab.
         TabAPI instance = TabAPI.getInstance();
         EventBus eventBus = Objects.requireNonNull(instance.getEventBus(), "TAB EventBus is not available.");
 
-        // Register TAB listener.
         eventBus.register(PlayerLoadEvent.class, event -> {
-            // Ignore if option not enabled.
             if (!autoTag) return;
 
-            // Run normally if reloading tab
             if (!event.isJoin()) {
                 applyTagPrefix(event, instance);
                 return;
             }
 
-            // Run with a delayed task if player is joining.
             Bukkit.getScheduler().runTaskLater(plugin, () -> applyTagPrefix(event, instance), 15L);
         });
     }
 
     private void applyTagPrefix(PlayerLoadEvent event, TabAPI instance) {
-        //Use ticks to ensure PlayerGlowManager#getPlayerGlowColor doesn't get many calls.
         int ticks = plugin.getConfiguration().getInt("Rainbow_Update_Interval");
         if (ticks <= 0) {
             ticks = 1;
@@ -88,7 +79,6 @@ public class TabImplementation {
         NameTagManager nameTagManager = Objects.requireNonNull(instance.getNameTagManager(), "TAB NameTagManager is unavailable.");
         String originalPrefix = nameTagManager.getOriginalPrefix(event.getPlayer());
 
-        // Somehow tab still fails sometimes to retrieve player original prefix.
         if (originalPrefix == null) return;
 
         String modifiedPrefix = originalPrefix + "%fancyglow_tab_color%";

@@ -60,22 +60,16 @@ public final class FancyGlow extends ZapperJavaPlugin {
 
     @Override
     public void onEnable() {
-        // Run async
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
-            // bStats hook / metrics
             new Metrics(this, 22057);
-            // Check for plugin updates.
             checkUpdates();
 
-            // Attempts to hook onto TAB.
             new TabImplementation(this).initialize();
         });
 
-        // Try to create adventure audience
         this.adventure = BukkitAudiences.create(this);
         MessageUtils.setAdventure(adventure());
 
-        // Init config manager
         try {
             this.configuration = YamlDocument.create(
                     new File(this.getDataFolder(), "config.yml"),
@@ -90,28 +84,20 @@ public final class FancyGlow extends ZapperJavaPlugin {
 
         this.messageHandler = new MessageHandler(this, configuration);
 
-        // Init managers
         this.glowManager = new GlowManager(this);
         this.playerGlowManager = new PlayerGlowManager(this);
-        // Initialize tasks for glow-effects and avoid do it at every glow-effect toggle.
         this.glowManager.scheduleFlashingTask();
         this.glowManager.scheduleMulticolorTask();
-        // Avoid create a new instance per every command-execution.
         this.inventory = new CreatingInventory(this);
         this.inventory.setupContent();
 
-        // Instance API
         API = new FancyGlowAPIImpl(this);
-        // Register the API as a service
         getServer().getServicesManager().register(FancyGlowAPI.class, API, this, ServicePriority.Normal);
 
-        // Register command and suggestions
         this.commandLoader = new CommandLoader(this);
 
-        // Register events
         registerEvents();
 
-        // Attempts to hook into placeholderapi.
         hookPlaceholderAPI();
     }
 
@@ -152,14 +138,12 @@ public final class FancyGlow extends ZapperJavaPlugin {
     }
 
     private void hookPlaceholderAPI() {
-        // Check if PlaceholderAPI is available.
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
             this.logger.warning("Could not find PlaceholderAPI!");
             this.logger.warning("This plugin is required if you want to use its placeholders.");
             return;
         }
 
-        // Actually register placeholderapi extension.
         new FancyGlowPlaceholder(this).register();
     }
 

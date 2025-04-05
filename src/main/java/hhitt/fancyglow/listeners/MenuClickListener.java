@@ -38,8 +38,6 @@ public class MenuClickListener implements Listener {
         ItemStack clickedItem = e.getCurrentItem();
         if (clickedItem == null || clickedItem.getType() != Material.LEATHER_CHESTPLATE) return;
 
-        // The clicked-item already is of leather-type, why should we check if also it has an item-meta?
-        // It won´t be null.
         ChatColor color = ColorUtils.getColorFromArmorColor(((LeatherArmorMeta) clickedItem.getItemMeta()).getColor());
         if (color == null) return;
 

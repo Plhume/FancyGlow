@@ -2,7 +2,6 @@ package hhitt.fancyglow.utils;
 
 public enum Messages {
 
-    // Plugin messages.
     COLOR_COMMAND_USAGE("Messages.Color_Command_Usage"),
     COLOR_SET_COMMAND_USAGE("Messages.Color_Set_Command_Usage"),
     DISABLE_COMMAND_USAGE("Messages.Disable_Usage"),
@@ -25,12 +24,10 @@ public enum Messages {
     GLOW_STATUS_FALSE("Messages.Glow_Status_False"),
     GLOW_STATUS_NONE("Messages.Glow_Status_None"),
 
-    // General messages.
     NO_PERMISSION("Messages.No_Permission"),
     RELOADED("Messages.Reload_Message"),
     MESSAGE_NOT_FOUND("Messages.Message_Not_Found"),
 
-    // Inventory messages.
     COLOR_LORE("Inventory.Items.Color_Lore"),
     DARK_RED_NAME("Inventory.Items.Dark_Red_Glow_Name"),
     RED_NAME("Inventory.Items.Red_Glow_Name"),
@@ -49,7 +46,6 @@ public enum Messages {
     GRAY_NAME("Inventory.Items.Gray_Glow_Name"),
     WHITE_NAME("Inventory.Items.White_Glow_Name"),
 
-    // Inventory
     FILLER_NAME("Inventory.Filler.Name"),
     HEAD_NAME("Inventory.Status.Name"),
     HEAD_LORE_CLICK("Inventory.Status.Lore.Click"),
@@ -60,7 +56,6 @@ public enum Messages {
     FLASHING_HEAD_LORE("Inventory.Flashing.Lore"),
     INVENTORY_TITLE("Inventory.Title"),
 
-    // Command Manager
     COMMAND_MANAGER_HEADER("COMMAND_MANAGER.USAGE.HEADER"),
     COMMAND_MANAGER_PREFIX("COMMAND_MANAGER.USAGE.PREFIX"),
     COMMAND_MANAGER_MESSAGE("COMMAND_MANAGER.USAGE.MESSAGE");

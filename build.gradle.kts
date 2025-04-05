@@ -102,7 +102,6 @@ tasks {
         )
 
         permissions {
-            // Admin permission
             register("fancyglow.admin") {
                 default = BukkitPluginDescription.Permission.Default.OP
                 description = "Gives permission to every FancyGlow command and feature."
@@ -112,7 +111,6 @@ tasks {
                     "fancyglow.command.disable.everyone", "fancyglow.command.disable.others", "fancyglow.command.set"
                 )
             }
-            // Commands related permissions
             register("fancyglow.command.gui") {
                 default = BukkitPluginDescription.Permission.Default.FALSE
                 description = "Gives access to color selector inventory."
@@ -141,7 +139,6 @@ tasks {
                 default = BukkitPluginDescription.Permission.Default.OP
                 description = "Gives access to reload plugin config."
             }
-            // Color related permissions
             register("fancyglow.all_colors") {
                 default = BukkitPluginDescription.Permission.Default.FALSE
                 description = "Gives permission to every color."
@@ -164,7 +161,6 @@ tasks {
                 default = BukkitPluginDescription.Permission.Default.FALSE
                 description = "Gives access to flashing mode."
             }
-            // Color permissions
             register("fancyglow.red") {
                 description = "Gives access to color red."
             }

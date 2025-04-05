@@ -36,11 +36,11 @@ public class HeadUtils {
         }
         PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID(), "FancyCustomHead");
         PlayerTextures textures = profile.getTextures();
-        textures.setSkin(urlObject); // Set the skin of the player profile to the URL
-        profile.setTextures(textures); // Set the textures back to the profile
+        textures.setSkin(urlObject);
+        profile.setTextures(textures);
 
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
-        meta.setOwnerProfile(profile); // Set the owning player of the head to the player profile
+        meta.setOwnerProfile(profile);
         skull.setItemMeta(meta);
 
         return skull;
@@ -54,8 +54,6 @@ public class HeadUtils {
      */
     public static URL getUrlFromBase64(String base64) throws MalformedURLException {
         String decoded = new String(Base64.getDecoder().decode(base64));
-        // We simply remove the "beginning" and "ending" part of the JSON, so we're left with only the URL. You could use a proper
-        // JSON parser for this, but that's not worth it. The String will always start exactly with this stuff anyway
         return new URL(decoded.substring("{\"textures\":{\"SKIN\":{\"url\":\"".length(), decoded.length() - "\"}}}".length()));
     }
 }

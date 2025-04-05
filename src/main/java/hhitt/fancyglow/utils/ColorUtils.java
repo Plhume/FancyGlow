@@ -11,7 +11,6 @@ import java.util.Set;
 
 public class ColorUtils {
 
-    // Implementation for the logic to map leather armor colors to colors
     private static final Set<String> availableColorSet = new HashSet<>();
     private static final Map<String, ChatColor> colorValues = new HashMap<>();
     private static final Map<Color, ChatColor> colorMap = new HashMap<>();
@@ -36,17 +35,13 @@ public class ColorUtils {
         colorMap.put(Color.ORANGE, ChatColor.GOLD);
 
         colorMap.forEach((color, chatColor) -> {
-            // Reverse colorMap into its own map.
             reverseColorMap.put(chatColor, color);
 
-            // Populate color values.
             colorValues.put(chatColor.name(), chatColor);
 
-            // Populate available color set.
             availableColorSet.add(chatColor.name().toLowerCase(Locale.ROOT));
         });
 
-        //Manually add common used color names
         colorValues.put("PINK", ChatColor.LIGHT_PURPLE);
         colorValues.put("PURPLE", ChatColor.DARK_PURPLE);
         availableColorSet.add("pink");

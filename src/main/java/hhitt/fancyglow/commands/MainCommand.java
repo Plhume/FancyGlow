@@ -30,22 +30,18 @@ public class MainCommand {
 
     @Execute
     public void command(@Context Player player) {
-        // Returns if disabled so player use its own menus.
         if (!plugin.getConfiguration().getBoolean("Open_Glow_Menu")) return;
 
-        // Prevent command usage in target worlds
         if (glowManager.isDeniedWorld(player.getWorld().getName())) {
             messageHandler.sendMessage(player, Messages.DISABLED_WORLD);
             return;
         }
 
-        // Check gui permissions
         if (!player.hasPermission("fancyglow.command.gui")) {
             messageHandler.sendMessage(player, Messages.NO_PERMISSION);
             return;
         }
 
-        // Prepare and open the gui
         plugin.getInventory().openInventory(player);
     }
 
@@ -64,10 +60,8 @@ public class MainCommand {
         try {
             plugin.getConfiguration().reload();
         } catch (IOException e) {
-            // No longer using logger as field, since this is the only place its being used.
             plugin.getLogger().severe("Unexpected exception during configuration-reload with the following message: " + e.getMessage());
         } finally {
-            // Re-initialize inventory only when reloading, probably not the best way to do it.
             plugin.getInventory().setupContent();
 
             glowManager.scheduleFlashingTask();

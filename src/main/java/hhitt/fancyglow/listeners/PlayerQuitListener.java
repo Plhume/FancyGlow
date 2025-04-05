@@ -17,7 +17,6 @@ public class PlayerQuitListener implements Listener {
         this.glowManager = plugin.getGlowManager();
     }
 
-    // Actions of persistent mode
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();

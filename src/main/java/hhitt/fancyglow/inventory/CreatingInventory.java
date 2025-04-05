@@ -43,14 +43,11 @@ public class CreatingInventory implements InventoryHolder {
     }
 
     public void setupContent() {
-        // Set fill items.
         setFiller();
 
-        // Set color items.
         int i = 9;
         ItemStack colorItem;
         LeatherArmorMeta colorMeta;
-        // Preferably we'll want to avoid us the object-alloc that involves the #getMessages method.
         List<String> colorLoreMessage = messageHandler.getMessages(Messages.COLOR_LORE);
         for (ChatColor availableColor : GlowManager.COLORS_ARRAY) {
             colorItem = new ItemStack(Material.LEATHER_CHESTPLATE);
@@ -58,13 +55,11 @@ public class CreatingInventory implements InventoryHolder {
 
             colorMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DYE);
             colorMeta.setLore(colorLoreMessage);
-            // Might cause IllegalArgumentException if message doesn't exist.
             Messages colorMessage = Messages.valueOf(availableColor.name().toUpperCase() + "_NAME");
             colorMeta.setDisplayName(messageHandler.getMessage(colorMessage));
             colorMeta.setColor(ColorUtils.getArmorColorFromChatColor(availableColor));
             colorItem.setItemMeta(colorMeta);
 
-            // Skip slot 18.
             if (i == 18) {
                 i++;
             }
@@ -85,10 +80,8 @@ public class CreatingInventory implements InventoryHolder {
     }
 
     private void setFiller() {
-        // Return if filler is not enabled.
         if (!config.getBoolean("Inventory.Filler.Enabled")) return;
 
-        // Define filler-material.
         Material material = Material.getMaterial(config.getString("Inventory.Filler.Material", "GRAY_STAINED_GLASS_PANE"));
         if (material == null) return;
 
@@ -103,14 +96,11 @@ public class CreatingInventory implements InventoryHolder {
     }
 
     private void setFlashingItem(final Player player) {
-        // Clear flashing item since plugin no longer
         int slot = config.getInt("Inventory.Flashing.Slot", 40);
         inventory.setItem(slot, null);
 
-        // Returns if player doesn't have any team or isn't glowing.
         if (playerGlowManager.findPlayerTeam(player) == null && !player.isGlowing()) return;
 
-        // Flashing head
         ItemStack flashingHead = HeadUtils.getCustomSkull(config.getString("Inventory.Flashing.Texture", DEFAULT_FLASHING_TEXTURE));
         ItemMeta flashingHeadMeta = flashingHead.getItemMeta();
 
@@ -123,7 +113,6 @@ public class CreatingInventory implements InventoryHolder {
     }
 
     private void setRainbowItem() {
-        // Rainbow head
         ItemStack rainbowHead = HeadUtils.getCustomSkull(config.getString("Inventory.Rainbow.Texture", DEFAULT_RAINBOW_TEXTURE));
         ItemMeta rainbowHeadMeta = rainbowHead.getItemMeta();
 

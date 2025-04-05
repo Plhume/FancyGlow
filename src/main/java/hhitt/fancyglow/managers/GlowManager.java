@@ -53,7 +53,6 @@ public class GlowManager {
         this.flashingPlayerSet = new HashSet<>();
         this.multicolorPlayerSet = new HashSet<>();
 
-        // It could be null at this point?
         this.scoreboardManager = plugin.getServer().getScoreboardManager();
     }
 
@@ -103,17 +102,13 @@ public class GlowManager {
     }
 
     public void setGlow(Player player, ChatColor color) {
-        // Remove any existing glow
         removeGlow(player);
-        // Add the player to the team and enable glowing
         getOrCreateTeam(color).addEntry(ChatColor.stripColor(player.getName()));
         player.setGlowing(true);
     }
 
     public void removeGlow(Player player) {
-        // Remove glow from player
         player.setGlowing(false);
-        // Remove from any existing color team
         removePlayerFromAllTeams(player);
     }
 
@@ -121,19 +116,14 @@ public class GlowManager {
         Scoreboard board = scoreboardManager.getMainScoreboard();
         String cleanName = ChatColor.stripColor(player.getName());
 
-        // Handle remove if rainbow selected
         if (isMulticolorTaskActive(player)) {
-            // Remove from multicolor set.
             multicolorPlayerSet.remove(player.getUniqueId());
         }
 
-        // Same as above but for flashing task 😎
         if (isFlashingTaskActive(player)) {
-            // Remove from flashing set.
             flashingPlayerSet.remove(player.getUniqueId());
         }
 
-        // Attempt to remove player from any color team
         Team team;
         for (final ChatColor color : COLORS_ARRAY) {
             team = board.getTeam(color.name());

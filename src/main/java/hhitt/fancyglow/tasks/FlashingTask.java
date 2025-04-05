@@ -19,16 +19,13 @@ public class FlashingTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        // Cancel task if none at this set
         if (glowManager.getFlashingPlayerSet().isEmpty()) return;
 
         Player player;
         for (UUID uuid : glowManager.getFlashingPlayerSet()) {
             player = Objects.requireNonNull(Bukkit.getPlayer(uuid));
-            // Ignore if player is on respawn screen.
             if (player.isDead()) continue;
 
-            // Toggle glowing state.
             player.setGlowing(!player.isGlowing());
         }
     }
